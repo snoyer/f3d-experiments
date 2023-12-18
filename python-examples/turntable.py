@@ -57,7 +57,7 @@ def main():
     frames = tqdm(frames, total=int(duration * fps))
 
     ffmpeg_encode_sequence(
-        (f3d_image_to_numpy(im).tobytes() for im in frames),
+        (im.content for im in frames),
         resolution,
         fps,
         video_out_fn,
@@ -78,12 +78,6 @@ def out_video_filename(
     w, h = resolution
     name = f"{basename}-{w}x{h}@{fps:g}fps-{duration:g}s.{ext}"
     return into / name
-
-
-def f3d_image_to_numpy(im: f3d.Image):
-    return np.frombuffer(im.content, np.uint8).reshape(
-        (im.height, im.width, im.channel_count)
-    )
 
 
 Opts = dict[str, Any]
