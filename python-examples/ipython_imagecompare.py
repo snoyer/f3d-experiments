@@ -12,6 +12,8 @@ function init_imagecompare(_id, w, h){
 
     a.style.position = "absolute";
     b.style.position = "absolute";
+    a.classList.add("hover");
+    b.classList.add("hover");
 
     b.style.overflow = "hidden";
     b.style.display = "block";
@@ -40,7 +42,7 @@ class ImageCompare:
         .imagecompare .border {
           border-right:2px solid white;
         }
-        .imagecompare .hover :hover {
+        .imagecompare .hover:hover {
           cursor: col-resize;
         }
         """
