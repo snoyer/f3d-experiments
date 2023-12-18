@@ -127,10 +127,10 @@ def render_turntable(
 
 
 def turntable_cam_state_func(
-    initial_state: f3d.camera_state_t,
+    initial_state: f3d.CameraState,
     axis: tuple[float, float, float],
     turns: float = 1,
-) -> Callable[[float], f3d.camera_state_t]:
+) -> Callable[[float], f3d.CameraState]:
     initial_foc = np.array(initial_state.foc)
     initial_pos = np.array(initial_state.pos)
     initial_up = np.array(initial_state.up)
@@ -144,7 +144,7 @@ def turntable_cam_state_func(
         pos = transform_point(initial_pos, m)
         foc = transform_point(initial_foc, m)
         up = transform_point(initial_pos + initial_up, m) - pos
-        return f3d.camera_state_t(pos, foc, up, initial_state.angle)
+        return f3d.CameraState(pos, foc, up, initial_state.angle)
 
     return interpolate_state
 
@@ -160,7 +160,7 @@ def up_direction_axis(up_direction: str):
 
 def f3d_render_frame(
     engine: f3d.Engine,
-    cam: Optional[Callable[[float], f3d.camera_state_t] | f3d.camera_state_t] = None,
+    cam: Optional[Callable[[float], f3d.CameraState] | f3d.CameraState] = None,
     opts: Optional[Callable[[float], Opts] | Opts] = None,
     t: float = 0,
 ) -> f3d.Image:
