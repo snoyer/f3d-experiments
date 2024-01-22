@@ -23,7 +23,7 @@ def main():
     resolution = 1280, 720
     fps = 30
     duration = 5
-    model_fn = "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb"
+    model_fn = "https://github.com/KhronosGroup/glTF-Sample-Models/raw/main/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb"
     hdri_fn = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/industrial_sunset_02_puresky_2k.hdr"
 
     video_out_fn = out_video_filename("f3d-turntable", resolution, fps, duration)
