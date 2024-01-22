@@ -12,7 +12,6 @@ import numpy as np
 from tqdm import tqdm
 from transforms3d._gohlketransforms import rotation_matrix
 
-
 FFMPEG_ARGS = [
     *("-profile:v", "main", "-c:v", "libx264", "-pix_fmt", "yuv420p"),
     *("-crf", "1"),
@@ -51,7 +50,7 @@ def main():
         duration=duration,
         fps=fps,
         offscreen=offscreen,
-        start_position=(1, 0.25, 1),
+        start_position=(1, 1, 1),
     )
 
     frames = tqdm(frames, total=int(duration * fps))
@@ -76,7 +75,7 @@ def out_video_filename(
     ext: str = ".mp4",
 ):
     w, h = resolution
-    name = f"{basename}-{w}x{h}@{fps:g}fps-{duration:g}s.{ext}"
+    name = f"{basename}-{w}x{h}@{fps:g}fps-{duration:g}s{ext}"
     return into / name
 
 
@@ -116,7 +115,6 @@ def render_turntable(
     frame_count = int(round(duration * fps))
     for i in range(frame_count):
         t = i / frame_count
-        # print(f'{i+1} / {frame_count}: t={t:g}')
         yield f3d_render_frame(engine, cam_state_f, options, t)
 
 
