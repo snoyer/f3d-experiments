@@ -6,13 +6,13 @@
 using json = nlohmann::json;
 using namespace nlohmann::literals;
 
-#include "options.h"
 #include "options-structio.h" // generated
+#include "options.h"
 
 typedef struct options_ns::f3d_options Options;
-typedef options_ns::generated::Diff OptionsDiff;
-namespace OptionsIO = options_ns::generated;
-auto OptionsKeys = options_ns::generated::keys;
+typedef options_ns::f3d_options_io::Diff OptionsDiff;
+namespace OptionsIO = options_ns::f3d_options_io;
+auto OptionsKeys = options_ns::f3d_options_io::keys;
 
 const auto RESET = "\033[0m";
 const auto BOLD = "\033[1m";
@@ -298,6 +298,10 @@ int main(int argc, char **argv) {
               << " ";
   }
   std::cout << RESET << std::endl;
+
+  for (auto x : result.unmatched()) {
+    std::cout << x << std::endl;
+  }
 
   return 0;
 }

@@ -15,7 +15,7 @@ typedef std::array<double, 3> Point3;
 struct Colormap_t {
   std::vector<Color> colors;
   std::string name;
- 
+
   bool operator==(const struct Colormap_t &other) const {
     return this->colors == other.colors;
   }
@@ -27,8 +27,14 @@ typedef struct Colormap_t Colormap;
 
 namespace options_ns {
 
+struct app_options {
+  bool watch = false;
+};
+
 struct f3d_options {
-  /** options related to how the scene is being displayed */
+  /** options related to how the scene is being displayed
+   * blah blah blah
+   */
   struct scene_t {
     struct animation {
       /** Select the animation to load.
