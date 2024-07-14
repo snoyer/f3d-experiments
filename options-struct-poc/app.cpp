@@ -231,10 +231,10 @@ int main(int argc, char **argv) {
       }
     },
     "ui": {
-      "font-file": "~/myfont.ttf"
+      "font_file": "~/myfont.ttf"
     },
-    "render.effect.ambient-occlusion": true,
-    "render.effect.anti-aliasing": "yes"
+    "render.effect.ambient_occlusion": true,
+    "render.effect.anti_aliasing": "yes"
   }
   )"_json;
 
