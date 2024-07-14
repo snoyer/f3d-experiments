@@ -77,7 +77,9 @@ def main():
             f_incl.write(line)
             f_incl.write("\n")
 
-        for line in impl_preamble([args.incl]):
+        incl_path = Path(args.incl)
+        impl_path = Path(args.impl)
+        for line in impl_preamble([str(incl_path.relative_to(impl_path.parent))]):
             f_impl.write(line)
             f_impl.write("\n")
 
