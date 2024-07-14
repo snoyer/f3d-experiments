@@ -18,7 +18,8 @@ add_custom_command(
 add_custom_command(
   COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/structio.py
           options-struct.json "options_ns::*options"
-          options-structio.h options-structio.cpp
+          ${CMAKE_CURRENT_SOURCE_DIR}/options-structio.h
+          ${CMAKE_CURRENT_SOURCE_DIR}/options-structio.cpp
           --include="options.h"
           --include="options-io.h"
           --parse="std::string\;from_string\;options_ns::parse_%"
@@ -27,8 +28,8 @@ add_custom_command(
           --key-sep="."
   DEPENDS options-struct.json
           ${CMAKE_CURRENT_SOURCE_DIR}/structio.py
-  OUTPUT options-structio.h
-         options-structio.cpp
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/options-structio.h
+         ${CMAKE_CURRENT_SOURCE_DIR}/options-structio.cpp
   COMMENT "Generating structio code"
 )
 
