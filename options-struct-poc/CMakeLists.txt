@@ -9,6 +9,7 @@ add_custom_command(
   COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/structparse.py
           ${CMAKE_CURRENT_SOURCE_DIR}/options.h "options_ns::*options"
           --out-json=options-struct.json
+          --include ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES}
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/structparse.py
           ${CMAKE_CURRENT_SOURCE_DIR}/options.h
   OUTPUT options-struct.json

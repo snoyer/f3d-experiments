@@ -4,11 +4,9 @@ import argparse
 import json
 import logging
 import shlex
-import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from fnmatch import fnmatch
-from itertools import dropwhile, takewhile
 from pathlib import Path
 from typing import Callable, Iterator, Optional, Self, Sequence, cast
 
@@ -37,11 +35,7 @@ def main():
 
     parser.add_argument("--out-json")
 
-    parser.add_argument(
-        "--compiler",
-        default="clang",
-        help="compiler used to find default include paths (with `-E -v`)",
-    )
+    parser.add_argument("--include", nargs="*")
     parser.add_argument("--compiler-args", default="-xc++")
 
     args = parser.parse_args()
@@ -49,8 +43,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     cpp_args = shlex.split(args.compiler_args)
-    include_paths = find_default_includes(cpp_args, args.compiler)
-
+    include_paths = [Path(path) for path in args.include or []]
     result = {}
 
     for struct, struct_namespaces in find_structs(
@@ -212,38 +205,6 @@ def parse_TranslationUnit(
         [*cpp_args, *(f"-I{path}" for path in include_paths or [])],
         options=TranslationUnit.PARSE_SKIP_FUNCTION_BODIES,
     )
-
-
-def find_default_includes(cpp_args: list[str], compiler: str = "clang") -> list[Path]:
-    Ev_command = [compiler, "-E", "-v", *cpp_args, "-"]
-    try:
-        clang_Ev = subprocess.check_output(
-            Ev_command,
-            text=True,
-            universal_newlines=True,
-            stderr=subprocess.STDOUT,
-            stdin=subprocess.DEVNULL,
-        ).splitlines()
-
-        clang_Ev = iter(clang_Ev)
-        clang_Ev = dropwhile(lambda line: "#include" not in line, clang_Ev)
-        clang_Ev = takewhile(lambda line: "End" not in line, clang_Ev)
-
-        include_candidates = [
-            Path(line.strip()) for line in clang_Ev if not line.startswith("#")
-        ]
-        include_directories = [
-            path.resolve() for path in include_candidates if path.is_dir()
-        ]
-        logging.info(
-            "found include directories %s with `%s`",
-            [str(x) for x in include_directories],
-            subprocess.list2cmdline(Ev_command),
-        )
-        return include_directories
-    except FileNotFoundError:
-        logging.warning("could not run `%s`", subprocess.list2cmdline(Ev_command))
-        return []
 
 
 def walk_cursor(
